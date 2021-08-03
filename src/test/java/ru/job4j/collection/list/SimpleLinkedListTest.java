@@ -47,4 +47,12 @@ public class SimpleLinkedListTest {
         assertThat(second.hasNext(), Is.is(false));
     }
 
+    @Test
+    public void getSize() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1);
+        list.add(2);
+        assertThat(list.getSize(), Is.is(2));
+    }
+
 }

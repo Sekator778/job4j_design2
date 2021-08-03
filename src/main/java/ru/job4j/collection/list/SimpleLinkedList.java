@@ -44,7 +44,7 @@ public class SimpleLinkedList<E> implements List<E> {
             while (temp.getNext() != null) {
                 temp = head.getNext();
             }
-            temp.setNext(new Node<E>(value, null, temp));
+            temp.setNext(new Node<>(value, null, temp));
         }
         size++;
         modCount++;
@@ -104,5 +104,9 @@ public class SimpleLinkedList<E> implements List<E> {
             node = node.nextElement;
             return value;
         }
+    }
+
+    public int getSize() {
+        return size;
     }
 }
