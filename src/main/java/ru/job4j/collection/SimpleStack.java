@@ -13,6 +13,10 @@ public class SimpleStack<T> {
         return linked.deleteLast();
     }
 
+    public T pop1() {
+        return linked.deleteFirst();
+    }
+
     /**
      * Метод push(T value) - помещает значение в коллекцию.
      */
@@ -26,5 +30,9 @@ public class SimpleStack<T> {
 
     public int getSize() {
         return linked.getSize();
+    }
+
+    public boolean isEmpty() {
+        return linked.getSize() == 0;
     }
 }
