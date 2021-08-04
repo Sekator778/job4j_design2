@@ -39,4 +39,8 @@ public class SimpleTree<E> implements Tree<E> {
         }
         return rsl;
     }
+
+    public boolean isBinary() {
+        return false;
+    }
 }
