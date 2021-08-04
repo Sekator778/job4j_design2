@@ -20,15 +20,13 @@ public class ListUtils {
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
         ListIterator<T> i = list.listIterator();
-        int k = 0;
         while (i.hasNext()) {
-            if (k == index) {
+            if (i.nextIndex() == index) {
                 i.next();
                 i.add(value);
                 break;
             }
             i.next();
-            k++;
         }
     }
 
@@ -57,16 +55,7 @@ public class ListUtils {
      * т.е. сброс
      */
     public static <T> void removeAll(List<T> list, List<T> elements) {
-        ListIterator<T> i;
-        for (T el : elements) {
-            i = list.listIterator();
-            while (i.hasNext()) {
-                if (i.next().equals(el)) {
-                    i.previous();
-                    i.remove();
-                }
-            }
-        }
+        removeIf(list, elements::contains);
     }
 
 }
