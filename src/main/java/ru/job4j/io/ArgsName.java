@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * программу, которая принимает массив параметров и разбивает их на пары: ключ, значение.
@@ -40,5 +41,9 @@ public class ArgsName {
 
         ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
+    }
+
+    public Set<String> getKeys() {
+        return values.keySet();
     }
 }
