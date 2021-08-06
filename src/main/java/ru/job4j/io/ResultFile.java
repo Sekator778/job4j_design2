@@ -2,10 +2,8 @@ package ru.job4j.io;
 
 import ru.job4j.io.app.Calc;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class ResultFile {
     public static void main(String[] args) {
