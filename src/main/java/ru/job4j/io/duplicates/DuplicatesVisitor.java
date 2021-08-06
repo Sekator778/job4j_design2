@@ -22,16 +22,16 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     private final String filename = "duplicates" + rnd.nextInt() + ".txt";
 
     /**
-     * вставляем в сет  модельФайла
+     * вставляем в сет  модель Файла
      * если не вставился значит есть таковой то есть дубликат и его выводи
      */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         FileProperty candidate = new FileProperty(file.toFile().length(), file.getFileName().toString());
         if (!base.add(candidate)) {
-            duplicates.add(String.format("File name %s, size = %s  kb \n", file.getFileName().toString(), file.toFile().length()));
+            duplicates.add(String.format("File name %s, size = %s  kb %n", file.getFileName().toString(), file.toFile().length()));
             recordDuplicateToFile();
-            System.out.printf("File name %s, size = %s \n", file.getFileName().toString(), file.toFile().length());
+            System.out.printf("File name %s, size = %s %n", file.getFileName().toString(), file.toFile().length());
         }
         return FileVisitResult.CONTINUE;
     }
