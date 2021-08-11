@@ -70,6 +70,7 @@ public class CSVReader {
      * достаем индексы столбцов которые нам надо вывести
      * предикат фильтра
      * заполнение результата заглавием колонок
+     * с переводом строк?
      */
     private static List<Integer> getIndexFilter(String firstLine) {
         List<String> first;
