@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * java -jar target/csvReader.jar -path=file.csv -delimiter=";"  -out=stdout -filter=name,age
+ * java -jar target/CSVReader.jar -path=./data/forScanner.csv -delimiter=","  -out=console -filter=name,age
  */
 public class CSVReader {
     private static Set<String> argSet;
@@ -25,7 +25,7 @@ public class CSVReader {
         getCommand();
         if (out.equals("console")) {
             outToConsole();
-        } else if (out.equals("file")) {
+        } else {
             outToFile();
         }
     }
@@ -53,11 +53,11 @@ public class CSVReader {
                 while (dataScanner.hasNext()) {
                     String data = dataScanner.next();
                     if (index.contains(i)) {
-                        STRINGS.add(data + "|");
+                        STRINGS.add(data + delimiter);
                     }
                     i++;
                 }
-                STRINGS.add("\n");
+                STRINGS.add(System.lineSeparator());
                 i = 0;
             }
         } catch (Exception e) {
@@ -79,10 +79,10 @@ public class CSVReader {
         for (int i = 0; i < first.size(); i++) {
             if (filters.contains(first.get(i))) {
                 index.add(i);
-                STRINGS.add(first.get(i) + "|");
+                STRINGS.add(first.get(i) + delimiter);
             }
         }
-        STRINGS.add("\n");
+        STRINGS.add(System.lineSeparator());
         return index;
     }
 
@@ -98,8 +98,7 @@ public class CSVReader {
      */
     private static void outToFile() {
         List<String> outData = scannerCSV2();
-        Random random = new Random(10);
-        try (BufferedWriter reader = new BufferedWriter(new FileWriter(out + random.nextInt() + ".txt"))) {
+        try (BufferedWriter reader = new BufferedWriter(new FileWriter(out))) {
             for (String line : outData) {
                 reader.write(line);
             }
@@ -112,11 +111,10 @@ public class CSVReader {
      * есть ли необходимые параметры
      */
     private static void testArgs() {
-        for (String key : argSet) {
-            if (!"delimiter".equals(key) && !"out".equals(key) && !"filter".equals(key) && !"path".equals(key)) {
-                throw new IllegalArgumentException(
-                        "-path directory, -out console or file, -filter filter columns, -delimiter delimiter CSV file");
-            }
+        Set<String> argTest = Set.of("delimiter", "out", "filter", "path");
+        if (!argTest.containsAll(argSet)) {
+            throw new IllegalArgumentException(
+                    "-path directory, -out console or file, -filter filter columns, -delimiter delimiter CSV file");
         }
     }
 
@@ -128,6 +126,5 @@ public class CSVReader {
         delimiter = argsName.get("delimiter");
         out = argsName.get("out");
         filters = Arrays.asList(argsName.get("filter").split(","));
-
     }
 }
