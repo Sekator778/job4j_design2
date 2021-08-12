@@ -23,6 +23,7 @@ public class CSVReader {
         argSet = argsName.getKeys();
         testArgs();
         getCommand();
+        scannerCSV2();
         if (out.equals("console")) {
             outToConsole();
         } else {
@@ -90,18 +91,21 @@ public class CSVReader {
      * вывод в консоль
      */
     private static void outToConsole() {
-        scannerCSV2().forEach(System.out::print);
+        STRINGS.forEach(System.out::print);
     }
 
     /**
      * вывод в файл
      */
     private static void outToFile() {
-        List<String> outData = scannerCSV2();
         try (BufferedWriter reader = new BufferedWriter(new FileWriter(out))) {
-            for (String line : outData) {
-                reader.write(line);
-            }
+            STRINGS.forEach(d -> {
+                try {
+                    reader.write(d);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
