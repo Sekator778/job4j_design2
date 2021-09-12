@@ -31,6 +31,22 @@ public class Reader {
     }
 
     /**
+     * готовые аргументы
+     */
+    public void exec(ArgsName args) {
+        argsName = args;
+        argSet = argsName.getKeys();
+        testArgs();
+        getCommand();
+        scannerCSV2();
+        if (out.equals("console")) {
+            outToConsole();
+        } else {
+            outToFile();
+        }
+    }
+
+    /**
      * считываем файл
      */
     private void scannerCSV2() {
@@ -57,7 +73,10 @@ public class Reader {
                     }
                     i++;
                 }
-                strings.add(System.lineSeparator());
+                cutLastChar();
+                if (!strings.isEmpty()) {
+                    strings.add(System.lineSeparator());
+                }
                 i = 0;
             }
         } catch (Exception e) {
@@ -74,14 +93,17 @@ public class Reader {
     private List<Integer> getIndexFilter(String firstLine) {
         List<String> first;
         List<Integer> index = new ArrayList<>();
-        first = Arrays.asList(firstLine.split(", "));
+        first = Arrays.asList(firstLine.split(delimiter));
         for (int i = 0; i < first.size(); i++) {
             if (filters.contains(first.get(i))) {
                 index.add(i);
                 strings.add(first.get(i) + delimiter);
             }
         }
-        strings.add(System.lineSeparator());
+        cutLastChar();
+        if (!strings.isEmpty()) {
+            strings.add(System.lineSeparator());
+        }
         return index;
     }
 
@@ -110,6 +132,7 @@ public class Reader {
     }
 
     /**
+     * проверяем
      * есть ли необходимые параметры
      */
     private void testArgs() {
@@ -128,5 +151,34 @@ public class Reader {
         delimiter = argsName.get("delimiter");
         out = argsName.get("out");
         filters = Arrays.asList(argsName.get("filter").split(","));
+    }
+
+    /**
+     * обрезать в конце разделитель
+     * тут надо модифицировать программу
+     * возможно замена на  do --> while
+     */
+    private void cutLastChar() {
+        if (!strings.isEmpty()) {
+            String replace = strings.get(strings.size() - 1);
+            replace = replace.substring(0, replace.length() - 1);
+            strings.set(strings.size() - 1, replace);
+        }
+    }
+
+    /**
+     * может чего показать надо для отладки
+     */
+    private void view() {
+        for (String s : argSet
+        ) {
+            System.out.println(s);
+            System.out.println(argsName.get(s));
+        }
+        System.out.println("-filters-");
+        for (String f : filters
+        ) {
+            System.out.println(f);
+        }
     }
 }

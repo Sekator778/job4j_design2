@@ -1,5 +1,7 @@
 package ru.job4j.io.csvread;
 
+import ru.job4j.io.ArgsName;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -9,5 +11,10 @@ public class CSVReader {
     public static void main(String[] args) throws FileNotFoundException {
         Reader reader = new Reader();
         reader.exec(args);
+    }
+
+    public static void handle(ArgsName argsName)  {
+        Reader reader = new Reader();
+        reader.exec(argsName);
     }
 }
