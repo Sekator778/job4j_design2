@@ -11,13 +11,12 @@ public class UsageLog4j {
         byte b = 65;
         char c = 'A';
         short s = 65;
-        int i  = 65;
-        long  l = 65L;
+        int i = 65;
+        long l = 65L;
         float f = 54f;
         double d = 65.56;
         boolean b1 = true;
 
-        LOG.debug("We have 8 primitive: byte : {}, char: {}, short: {}, int: {}, long: {}, " +
-                "float: {}, double: {}, boolean: {} ", b , c, s, i, l, f, d, b1);
+        LOG.debug("We have 8 primitive: byte : {}, char: {}, short: {}, int: {}, long: {}, float: {}, double: {}, boolean: {} ", b, c, s, i, l, f, d, b1);
     }
 }
