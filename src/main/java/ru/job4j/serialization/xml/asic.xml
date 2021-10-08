@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<asic name="RurBit" >
+    <birthday birthday="2020, 5, 12"/>
+    <chips>
+        <chip rate="10.0" temp="0" status="true" model="v10Th"/>
+        <chip rate="30.5" temp="0" status="true" model="v30Th"/>
+    </chips>
+</asic>
