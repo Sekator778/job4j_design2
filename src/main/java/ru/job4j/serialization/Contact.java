@@ -1,4 +1,4 @@
-package ru.job4j.serialization.java;
+package ru.job4j.serialization;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -6,15 +6,19 @@ import java.nio.file.Files;
 public class Contact implements Serializable {
     @Serial
     private static final long serialVersionUID = 511475673970270198L;
-    private final int zipCode;
+    private int zipCode;
     private final String phone;
-    transient private final int amount;
+    transient private int amount;
     private final Contain contain = new Contain();
 
     public Contact(int zipCode, String phone, int amount) {
         this.zipCode = zipCode;
         this.phone = phone;
         this.amount = amount;
+    }
+
+    public Contact(String phone) {
+        this.phone = phone;
     }
 
     public int getContain() {
