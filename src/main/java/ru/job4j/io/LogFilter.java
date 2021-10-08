@@ -6,13 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * вариант
- * List<String> petNames = humans.stream()
- * .map(human -> human.getPets()) //преобразовываем Stream<Human> в Stream<List<Pet>>
- * .flatMap(pets -> pets.stream())//"разворачиваем" Stream<List<Pet>> в Stream<Pet>
- * .collect(Collectors.toList());
- */
 public class LogFilter {
     public static List<String> filter(String file) {
 
