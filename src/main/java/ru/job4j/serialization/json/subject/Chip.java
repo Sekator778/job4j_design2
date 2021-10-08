@@ -1,10 +1,21 @@
 package ru.job4j.serialization.json.subject;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "chip")
 public class Chip {
+    @XmlAttribute
     private double rate;
+    @XmlAttribute
     private int temp;
+    @XmlAttribute
     private boolean status;
+    @XmlAttribute
     private String model;
+
+    public Chip() {
+    }
 
     public Chip(double rate, int temp, boolean status, String model) {
         this.rate = rate;
