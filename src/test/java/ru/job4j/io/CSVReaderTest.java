@@ -12,7 +12,6 @@ import static org.junit.Assert.assertNull;
 public class CSVReaderTest {
     private final String pathFile = "./data/test.txt";
 
-    //8. Find Pattern
     @Test
     public void whenFindPatternUsingScannerThenFound() throws IOException {
         String expectedValue = "world";
@@ -40,7 +39,6 @@ public class CSVReaderTest {
         scanner.close();
     }
 
-    //9. Skip Pattern
     @Test
     public void whenSkipPatternUsingScannerThenSkipped() throws IOException {
         FileInputStream inputStream = new FileInputStream(pathFile);

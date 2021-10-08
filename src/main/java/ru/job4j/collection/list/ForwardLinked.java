@@ -11,7 +11,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         Node<T> node = new Node<>(value, null);
         if (head == null) {
             head = node;
-            size++;     // тут просидел 2 часа
+            size++;
             return;
         }
         Node<T> tail = head;

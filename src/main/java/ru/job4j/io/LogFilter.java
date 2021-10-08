@@ -1,20 +1,20 @@
 package ru.job4j.io;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * вариант
+ * List<String> petNames = humans.stream()
+ * .map(human -> human.getPets()) //преобразовываем Stream<Human> в Stream<List<Pet>>
+ * .flatMap(pets -> pets.stream())//"разворачиваем" Stream<List<Pet>> в Stream<Pet>
+ * .collect(Collectors.toList());
+ */
 public class LogFilter {
     public static List<String> filter(String file) {
-
-//        List<String> petNames = humans.stream()
-//                .map(human -> human.getPets()) //преобразовываем Stream<Human> в Stream<List<Pet>>
-//                .flatMap(pets -> pets.stream())//"разворачиваем" Stream<List<Pet>> в Stream<Pet>
-//                .collect(Collectors.toList());
 
 
         List<String> result = new ArrayList<>();
