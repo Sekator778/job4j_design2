@@ -44,10 +44,18 @@ public class Finder {
             }
         }
         switch (argsMap.get("t")) {
-            case "mask" -> getMask(argsMap);
-            case "name" -> getName(argsMap);
-            case "regex" -> getRegex(argsMap);
-            default -> System.out.println("invalid param n");
+            case "mask":
+                getMask(argsMap);
+                break;
+            case "name":
+                getName(argsMap);
+                break;
+            case "regex":
+                getRegex(argsMap);
+                break;
+            default:
+                System.out.println("invalid param n");
+                break;
         }
         String fileName = argsMap.get("o");
         writeToFile(fileName);
