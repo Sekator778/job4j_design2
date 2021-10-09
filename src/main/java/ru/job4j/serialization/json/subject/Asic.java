@@ -11,7 +11,7 @@ public class Asic {
     @XmlAttribute
     private Date birthday;
     private int power;
-    @XmlElementWrapper(name = "chips")
+    @XmlElementWrapper
     @XmlElement(name = "chip")
     private List<Chip> chip;
 
@@ -22,6 +22,30 @@ public class Asic {
         this.name = name;
         this.birthday = getBirthday();
         setChips();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public List<Chip> getChip() {
+        return chip;
+    }
+
+    public void setChip(List<Chip> chip) {
+        this.chip = chip;
     }
 
     private Date getBirthday() {
