@@ -59,16 +59,18 @@ public class Finder {
         return switch (type) {
             case "name" -> path -> name.equals(path.getFileName().toString());
             case "mask" -> path -> {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < name.length(); i++) {
                     switch (name.charAt(i)) {
-                        case '*' -> sb.append(".*");
-                        case '?' -> sb.append(".{1}");
-                        case '.' -> sb.append("\\.");
-                        default -> sb.append(name.charAt(i));
+                        case '*' -> builder.append(".*");
+                        case '?' -> builder.append(".{1}");
+                        case '.' -> builder.append("\\.");
+                        default -> {
+                            builder.append(name.charAt(i));
+                        }
                     }
                 }
-                Pattern pattern = Pattern.compile(sb.toString());
+                Pattern pattern = Pattern.compile(builder.toString());
                 Matcher matcher = pattern.matcher(path.toFile().getName());
                 return matcher.matches();
             };
