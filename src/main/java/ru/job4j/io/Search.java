@@ -13,6 +13,13 @@ public class Search {
         search(start, p -> p.toFile().getName().endsWith("js")).forEach(System.out::println);
     }
 
+    /**
+     * возвращаем только имя файла
+     *
+     * @param root      где искать
+     * @param condition условие для поиска
+     * @return возвращаем абослютное имя файла
+     */
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
         SearchFiles searcher = new SearchFiles(condition);
         Files.walkFileTree(root, searcher);

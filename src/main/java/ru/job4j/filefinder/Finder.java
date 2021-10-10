@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.io.ArgsName;
 import ru.job4j.io.Search;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Finder {
     private static final Logger LOG = LoggerFactory.getLogger(Finder.class.getName());
@@ -30,67 +33,63 @@ public class Finder {
         }
     }
 
+    /**
+     * получаем аргументы
+     * строим условие
+     * заполняем коллекцию отобранными файлами  с помощью поисковика
+     * записываем в файл
+     */
     public void init(String[] args) throws IOException {
-        if (args.length == 0) {
-            throw new IllegalArgumentException(
-                    "Enter: -d directory, -n predicate, -t type search, -o output file with result"
-            );
-        }
-        ArgsName argsMap = ArgsName.of(args);
-        Set<String> argSet = argsMap.getKeys();
-        for (String key : argSet) {
-            if (!"d".equals(key) && !"n".equals(key) && !"t".equals(key) && !"o".equals(key) || argSet.size() != 4) {
-                throw new IllegalArgumentException("-d directory, -n predicate, -t type search, -o output");
-            }
-        }
-        switch (argsMap.get("t")) {
-            case "mask":
-                getMask(argsMap);
-                break;
-            case "name":
-                getName(argsMap);
-                break;
-            case "regex":
-                getRegex(argsMap);
-                break;
-            default:
-                System.out.println("invalid param n");
-                break;
-        }
+        ArgsName argsMap = Validate.validArgs(args);
+        Predicate<Path> predicate = buildPredicate((argsMap.get("t")), argsMap.get("n"));
+        listFiles = Search.search(Path.of(argsMap.get("d")), predicate);
+
         String fileName = argsMap.get("o");
         writeToFile(fileName);
     }
 
     /**
-     * по регулярному выражению
+     * постройка условия
+     *
+     * @param type как искать
+     * @param name что искать
+     * @return предикат
      */
-    private void getRegex(ArgsName argsMap) throws IOException {
-        listFiles = Search.search(Path.of(argsMap.get("d")), p -> p.toFile().getName().matches(argsMap.get("n")));
-    }
-
-    /**
-     * по полному совпадению
-     */
-    private void getName(ArgsName argsMap) throws IOException {
-        listFiles = Search.search(Path.of(argsMap.get("d")), p -> p.toFile().getName().equals(argsMap.get("n")));
-    }
-
-    /**
-     * по маске
-     */
-    private void getMask(ArgsName argsMap) throws IOException {
-        listFiles = Search.search(Path.of(argsMap.get("d")), p -> p.toFile().getName().endsWith(argsMap.get("n")));
+    private Predicate<Path> buildPredicate(String type, String name) {
+        return switch (type) {
+            case "name" -> path -> name.equals(path.getFileName().toString());
+            case "mask" -> path -> {
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < name.length(); i++) {
+                    switch (name.charAt(i)) {
+                        case '*' -> builder.append(".*");
+                        case '?' -> builder.append(".{1}");
+                        case '.' -> builder.append("\\.");
+                        default -> builder.append(name.charAt(i));
+                    }
+                }
+                Pattern pattern = Pattern.compile(builder.toString());
+                Matcher matcher = pattern.matcher(path.toFile().getName());
+                return matcher.matches();
+            };
+            case "regex" -> path -> {
+                Pattern pattern = Pattern.compile(name);
+                Matcher matcher = pattern.matcher(path.toFile().getName());
+                return matcher.matches();
+            };
+            default -> null;
+        };
     }
 
     /**
      * запись в файл
      */
     private void writeToFile(String fileName) throws IOException {
-        FileWriter writer = new FileWriter(fileName);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         for (Path p : listFiles) {
             try {
-                writer.write(String.valueOf(p.getFileName()));
-                writer.write("\n");
+                writer.write(String.valueOf(p.toString()));
+                writer.newLine();
             } catch (IOException e) {
                 LOG.error("Error write file --->>>");
                 e.printStackTrace();

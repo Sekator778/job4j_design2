@@ -22,7 +22,7 @@ public class ArgsName {
         for (String s : args
         ) {
             var strings = s.split("=");
-            if (strings.length < 2) {
+            if (strings.length != 2) {
                 throw new IllegalArgumentException("args invalid: Example key=value");
             }
             values.put(strings[0].substring(1), strings[1]);
