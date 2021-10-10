@@ -3,6 +3,27 @@ package ru.job4j.serialization.json.subject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * {
+ * "name": "RusMiner_v1.1",
+ * "birthday": "Mar 5, 2020, 12:00:00 AM",
+ * "power": 0,
+ * "chip": [
+ * {
+ * "rate": 10.0,
+ * "temp": 0,
+ * "status": true,
+ * "model": "v10Th"
+ * },
+ * {
+ * "rate": 30.0,
+ * "temp": 0,
+ * "status": true,
+ * "model": "v30Th"
+ * }
+ * ]
+ * }
+ */
 public class SendJson {
     public static void main(String[] args) {
         final Asic asic = new Asic("RusMiner_v1.1");
