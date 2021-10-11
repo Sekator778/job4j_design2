@@ -14,11 +14,9 @@ public class Search {
     }
 
     /**
-     * возвращаем только имя файла
-     *
      * @param root      где искать
      * @param condition условие для поиска
-     * @return возвращаем абослютное имя файла
+     * @return возвращаем абсолютное имя файла
      */
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
         SearchFiles searcher = new SearchFiles(condition);

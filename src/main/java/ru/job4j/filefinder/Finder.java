@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.io.ArgsName;
 import ru.job4j.io.Search;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class Finder {
     private static final Logger LOG = LoggerFactory.getLogger(Finder.class.getName());
-    public static List<Path> listFiles = new ArrayList<>();
+    private static final List<String> RESULT = new ArrayList<>();
 
     /**
      * вывод на экран подсказки
@@ -40,10 +41,12 @@ public class Finder {
      * записываем в файл
      */
     public void init(String[] args) throws IOException {
+        /*считываем и валидируем все аргументы*/
         ArgsName argsMap = Validate.validArgs(args);
+        /*условия для поиска*/
         Predicate<Path> predicate = buildPredicate((argsMap.get("t")), argsMap.get("n"));
-        listFiles = Search.search(Path.of(argsMap.get("d")), predicate);
-
+        /*поиск в каталоге (d) по условию и результат заносим в лист в виде строк*/
+        Search.search(Path.of(argsMap.get("d")), predicate).forEach(path -> RESULT.add(path.toString()));
         String fileName = argsMap.get("o");
         writeToFile(fileName);
     }
@@ -65,9 +68,7 @@ public class Finder {
                         case '*' -> builder.append(".*");
                         case '?' -> builder.append(".{1}");
                         case '.' -> builder.append("\\.");
-                        default -> {
-                            builder.append(name.charAt(i));
-                        }
+                        default -> builder.append(name.charAt(i));
                     }
                 }
                 Pattern pattern = Pattern.compile(builder.toString());
@@ -87,24 +88,13 @@ public class Finder {
      * запись в файл
      */
     private void writeToFile(String fileName) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        for (Path p : listFiles) {
-            try {
-                writer.write(String.valueOf(p.toString()));
-                writer.newLine();
-            } catch (IOException e) {
-                LOG.error("Error write file --->>>");
-                e.printStackTrace();
-            }
-        }
-        writer.flush();
-        writer.close();
+        Files.write(Paths.get(fileName), RESULT, StandardOpenOption.CREATE);
     }
 
     /**
      * для теста вывод в консоль
      */
     private void view() {
-        listFiles.forEach(file -> System.out.println(file.getFileName()));
+        RESULT.forEach(System.out::println);
     }
 }
