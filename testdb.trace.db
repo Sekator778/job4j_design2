@@ -1,0 +1,12 @@
+2021-10-25 15:17:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS" не найдена
+Table "ITEMS" not found; SQL statement:
+delete from items [42102-200]
+2021-10-25 15:18:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERSPAMER" не найдена
+Table "USERSPAMER" not found; SQL statement:
+delete from userSpamer [42102-200]
+2021-10-25 15:20:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "DATABASECHANGELOGLOCK" не найдена
+Table "DATABASECHANGELOGLOCK" not found; SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42102-200]

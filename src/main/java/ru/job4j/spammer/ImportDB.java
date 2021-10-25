@@ -63,21 +63,6 @@ public class ImportDB {
         }
     }
 
-    private static class User {
-        String name;
-        String email;
-
-        public User(String name, String email) {
-            this.name = name;
-            this.email = email;
-        }
-
-        @Override
-        public String toString() {
-            return "User name: " + name + " -- " + "email: " + email + ";";
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         Properties cfg = new Properties();
         try (FileInputStream in = new FileInputStream("src/main/java/ru/job4j/spammer/app.properties")) {
