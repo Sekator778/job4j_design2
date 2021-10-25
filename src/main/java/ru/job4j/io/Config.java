@@ -32,6 +32,9 @@ public class Config {
     }
 
     public String value(String key) {
+        if (values.isEmpty()) {
+            load();
+        }
         if (values.containsKey(key)) {
             return values.get(key);
         } else {
