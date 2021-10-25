@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
-    private static final Logger LOG = LoggerFactory.getLogger(BasicDDL.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TableEditor.class.getName());
     private Connection connection;
     private final Properties properties;
 

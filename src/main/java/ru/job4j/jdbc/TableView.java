@@ -20,6 +20,5 @@ public class TableView {
         tableEditor.addColumn(tableName, "age", "int");
         tableEditor.renameColumn(tableName, "age", "weight");
         tableEditor.dropColumn(tableName, "weight");
-
     }
 }
