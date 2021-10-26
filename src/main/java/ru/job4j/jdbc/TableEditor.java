@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -20,11 +21,13 @@ public class TableEditor implements AutoCloseable {
     }
 
     private void initConnection() {
+        final String url = properties.getProperty("url");
+        final String login = properties.getProperty("login");
+        final String password = properties.getProperty("password");
         try {
-            connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("login"), properties.getProperty("password"));
+            connection = DriverManager.getConnection(url, login, password);
         } catch (Exception e) {
-            LOG.error("error initConnection ->");
-            e.printStackTrace();
+            catchBlock(e, "error initConnection ->");
         }
     }
 
@@ -32,75 +35,55 @@ public class TableEditor implements AutoCloseable {
     public void createTable(String tableName) {
         initConnection();
         String sql = String.format("create table if not exists %s()", tableName);
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
-            LOG.info("----table created----");
+        try (Statement statement = connection.createStatement()) {
+            executeSql(sql, statement, "----table created----");
         } catch (Exception e) {
-            LOG.error("Error create Table");
-            e.printStackTrace();
+            catchBlock(e, "Error create Table");
         }
     }
 
     /* dropTable() – удаляет таблицу по указанному имени;*/
     public void dropTable(String tableName) {
         String sql = String.format("DROP TABLE IF EXISTS %s", tableName);
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
-            LOG.info("----table dropped----");
-
+        try (Statement statement = connection.createStatement()) {
+            executeSql(sql, statement, "----table dropped----");
         } catch (Exception e) {
-            LOG.error("Error drop Table");
-            e.printStackTrace();
+            catchBlock(e, "Error drop Table");
         }
     }
+
     /*  - addColumn() – добавляет столбец в таблицу*/
     public void addColumn(String tableName, String columnName, String type) {
         String sql = String.format("ALTER TABLE %s ADD %s  %s", tableName, columnName, type);
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
-            LOG.info("----add column----");
-            String tableScheme = getTableScheme(connection, tableName);
-            System.out.println(tableScheme);
+        try (Statement statement = connection.createStatement()) {
+            executeSql(sql, statement, "----add column----");
+            viewTable(tableName);
         } catch (Exception e) {
-            LOG.error("Error drop Table");
-            e.printStackTrace();
+            catchBlock(e, "Error drop Table");
         }
     }
 
     /*- dropColumn() – удаляет столбец из таблицы; */
     public void dropColumn(String tableName, String columnName) {
         String sql = String.format("ALTER TABLE %s drop column %s", tableName, columnName);
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
-            LOG.info("----drop column----");
-            String tableScheme = getTableScheme(connection, tableName);
-            System.out.println(tableScheme);
+        try (Statement statement = connection.createStatement()) {
+            executeSql(sql, statement, "----drop column----");
+            viewTable(tableName);
         } catch (Exception e) {
-            LOG.error("Error dropColumn");
-            e.printStackTrace();
+            catchBlock(e, "Error dropColumn");
         }
     }
 
     /* - renameColumn() – переименовывает столбец.*/
     public void renameColumn(String tableName, String columnName, String newColumnName) {
         String sql = String.format("ALTER TABLE %s rename column %s to %s", tableName, columnName, newColumnName);
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
-            LOG.info("----rename column----");
-            String tableScheme = getTableScheme(connection, tableName);
-            System.out.println(tableScheme);
-
+        try (Statement statement = connection.createStatement()) {
+            executeSql(sql, statement, "----rename column----");
+            viewTable(tableName);
         } catch (Exception e) {
-            LOG.error("Error renameColumn");
-            e.printStackTrace();
+            catchBlock(e, "Error renameColumn");
         }
     }
-
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
@@ -120,6 +103,20 @@ public class TableEditor implements AutoCloseable {
             }
         }
         return buffer.toString();
+    }
+
+    private void executeSql(String sql, Statement statement, String log) throws SQLException {
+        statement.execute(sql);
+        LOG.info(log);
+    }
+
+    private void catchBlock(Exception e, String s) {
+        LOG.error(s);
+        e.printStackTrace();
+    }
+
+    private void viewTable(String tableName) throws Exception {
+        System.out.println(getTableScheme(connection, tableName));
     }
 
     @Override
