@@ -37,20 +37,10 @@ public class ImportDBTest {
         connection.close();
     }
 
-//    @After
-//    public void wipeTable() throws SQLException {
-//        try (PreparedStatement statement = connection.prepareStatement("delete from userSpamer")) {
-//            statement.execute();
-//        }
-//    }
-
     @Test
     public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() throws IOException {
         ImportDB importDB = new ImportDB(config, "src/main/java/ru/job4j/spammer/dump.txt");
         User user = new User("Alex", "asd123@mail.op");
         importDB.load().forEach(System.out::println);
-//        assertThat(tracker.findById(item.getId()), is(item));
     }
-
-
 }
