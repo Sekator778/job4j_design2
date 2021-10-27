@@ -2,11 +2,10 @@ package ru.job4j.jdbc;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Properties;
 
 public class TableView {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         String tableName = "example";
         String separator = File.separator;
         String path = "src" + separator + "main" + separator + "resources" + separator + "app.properties";
