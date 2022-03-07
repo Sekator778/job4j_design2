@@ -22,7 +22,7 @@ public class Tracker {
 
     /* получение списка по имени -*/
     public Item[] findByName(String key) {
-        Item[] rsl = new Item[100];
+        Item[] rsl = new Item[size];
         int k = 0;
         for (Item i : items) {
             if (i == null) {
