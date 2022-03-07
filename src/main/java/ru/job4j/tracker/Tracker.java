@@ -53,14 +53,14 @@ public class Tracker {
     }
 
 
-    public boolean replace(int id, Item bugWithDesc) {
+    public boolean replace(int id, Item item) {
         /* Находим индекс */
         int index = indexOf(id);
         if (index == -1) {
             return false;
         } else {
-            bugWithDesc.setId(items[index].getId());
-            items[index] = bugWithDesc;
+            item.setId(id);
+            items[index] = item;
             return true;
         }
     }
