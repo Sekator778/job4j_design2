@@ -38,7 +38,7 @@ public class Tracker {
 
     /* получение списка всех заявок - */
     public Item[] findAll() {
-        return items;
+        return Arrays.copyOf(items, size);
     }
 
     private int indexOf(int id) {
