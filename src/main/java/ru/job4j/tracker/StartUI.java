@@ -1,109 +1,38 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.action.*;
+
 public class StartUI {
+
+    public void init(Input input, Tracker tracker, UserAction[] actions) {
+        boolean run = true;
+        while (run) {
+            this.showMenu(actions);
+            int select = input.askInt("Select: ");
+            UserAction action = actions[select];
+            run = action.execute(input, tracker);
+        }
+    }
+
+    private void showMenu(UserAction[] actions) {
+        System.out.println("Menu.");
+        for (int index = 0; index < actions.length; index++) {
+            System.out.println(index + ". " + actions[index].name());
+        }
+    }
 
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Tracker tracker = new Tracker();
-        new StartUI().init(input, tracker);
-    }
-
-    public void init(Input input, Tracker tracker) {
-        boolean run = true;
-        while (run) {
-            showMenu();
-            int select = input.askInt("Select: ");
-            if (select == 0) {
-                StartUI.createItem(input, tracker);
-            } else if (select == 1) {
-                StartUI.showAllItem(input, tracker);
-            } else if (select == 2) {
-                StartUI.editItem(input, tracker);
-            } else if (select == 3) {
-                StartUI.deleteItem(input, tracker);
-            } else if (select == 4) {
-                StartUI.findItemByID(input, tracker);
-            } else if (select == 5) {
-                StartUI.findItemByName(input, tracker);
-            } else if (select == 6) {
-                run = false;
-            }
-        }
-    }
-
-    private void showMenu() {
-        String[] menu = {
-                "Add new Item", "Show all items", "Edit item",
-                "Delete item", "Find item by id", "Find items by name",
-                "Exit Program"
+        UserAction[] actions = {
+                new CreateAction(),
+                new ShowAllItem(),
+                new ReplaceAction(),
+                new DeleteAction(),
+                new FindByIdItem(),
+                new FindItemByName(),
+                new Exit()
         };
-        System.out.println("Menu:");
-        for (int i = 0; i < menu.length; i++) {
-            System.out.println(i + ". " + menu[i]);
-        }
-    }
-
-
-    public static void createItem(Input input, Tracker tracker) {
-        System.out.println("=== Create a new Item ===");
-        String name = input.askStr("Enter name: ");
-        Item item = new Item(name);
-        tracker.add(item);
-        System.out.println("Added application: " + item);
-    }
-
-    public static void showAllItem(Input input, Tracker tracker) {
-        System.out.println("=== Show all items ===");
-        Item[] items = tracker.findAll();
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("The repository does not yet contain claims.");
-        }
-    }
-
-    public static void editItem(Input input, Tracker tracker) {
-        int id = input.askInt("=== Edit item === \n Enter id:");
-        String name = input.askStr("Enter name: ");
-        Item item = new Item(name);
-        if (tracker.replace(id, item)) {
-            System.out.println("Application changed successfully.");
-        } else {
-            System.out.println("Order replacement error.");
-        }
-    }
-
-
-    public static void deleteItem(Input input, Tracker tracker) {
-        int id = input.askInt("=== Delete item === " + System.lineSeparator() + " Enter id: ");
-        if (tracker.delete(id)) {
-            System.out.println("Request deleted successfully.");
-        } else {
-            System.out.println("Application deletion error.");
-        }
-    }
-
-    public static void findItemByID(Input input, Tracker tracker) {
-        int id = input.askInt("=== Find item by id ===" + System.lineSeparator() + " Enter id: ");
-        Item item = tracker.findById(id);
-        if (item != null) {
-            System.out.println(item);
-        } else {
-            System.out.println("Application with entered id: " + id + " not found.");
-        }
-    }
-
-    public static void findItemByName(Input input, Tracker tracker) {
-        String name = input.askStr("=== Find items by name ===" + System.lineSeparator() + " Enter name: ");
-        Item[] items = tracker.findByName(name);
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("Application with: " + name + " not found.");
-        }
+        new StartUI().init(input, tracker, actions);
     }
 }
