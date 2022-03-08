@@ -2,9 +2,16 @@ package ru.job4j.tracker.action;
 
 import ru.job4j.tracker.Input;
 import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Output;
 import ru.job4j.tracker.Tracker;
 
 public class FindByIdItem implements UserAction {
+    private final Output output;
+
+    public FindByIdItem(Output output) {
+        this.output = output;
+    }
+
     @Override
     public String name() {
         return "=== Find item by id ===";
@@ -15,9 +22,9 @@ public class FindByIdItem implements UserAction {
         int id = input.askInt(" Enter id: ");
         Item item = tracker.findById(id);
         if (item != null) {
-            System.out.println(item);
+            output.println(item);
         } else {
-            System.out.println("Application with entered id: " + id + " not found.");
+            output.println("Application with entered id: " + id + " not found.");
         }
         return true;
     }
