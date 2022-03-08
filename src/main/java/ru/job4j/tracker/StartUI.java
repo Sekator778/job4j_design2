@@ -2,60 +2,29 @@ package ru.job4j.tracker;
 
 public class StartUI {
 
+    public static void main(String[] args) {
+        Input input = new ConsoleInput();
+        Tracker tracker = new Tracker();
+        new StartUI().init(input, tracker);
+    }
+
     public void init(Input input, Tracker tracker) {
         boolean run = true;
         while (run) {
             showMenu();
             int select = input.askInt("Select: ");
             if (select == 0) {
-                String name = input.askStr("=== Create a new Item ===" + System.lineSeparator() + " Enter name: ");
-                Item item = new Item(name);
-                tracker.add(item);
-                System.out.println("Added application: " + item);
+                StartUI.createItem(input, tracker);
             } else if (select == 1) {
-                System.out.println("=== Show all items ===");
-                Item[] items = tracker.findAll();
-                if (items.length > 0) {
-                    for (Item item : items) {
-                        System.out.println(item);
-                    }
-                } else {
-                    System.out.println("The repository does not yet contain claims.");
-                }
+                StartUI.showAllItem(input, tracker);
             } else if (select == 2) {
-                int id = input.askInt("=== Edit item === \n Enter id:");
-                String name = input.askStr("Enter name: ");
-                Item item = new Item(name);
-                if (tracker.replace(id, item)) {
-                    System.out.println("Application changed successfully.");
-                } else {
-                    System.out.println("Order replacement error.");
-                }
+                StartUI.editItem(input, tracker);
             } else if (select == 3) {
-                int id = input.askInt("=== Delete item === " + System.lineSeparator() + " Enter id: ");
-                if (tracker.delete(id)) {
-                    System.out.println("Request deleted successfully.");
-                } else {
-                    System.out.println("Application deletion error.");
-                }
+                StartUI.deleteItem(input, tracker);
             } else if (select == 4) {
-                int id = input.askInt("=== Find item by id ===" + System.lineSeparator() + " Enter id: ");
-                Item item = tracker.findById(id);
-                if (item != null) {
-                    System.out.println(item);
-                } else {
-                    System.out.println("Application with entered id: " + id + " not found.");
-                }
+                StartUI.findItemByID(input, tracker);
             } else if (select == 5) {
-                String name = input.askStr("=== Find items by name ===" + System.lineSeparator() + " Enter name: ");
-                Item[] items = tracker.findByName(name);
-                if (items.length > 0) {
-                    for (Item item : items) {
-                        System.out.println(item);
-                    }
-                } else {
-                    System.out.println("Application with: " + name + " not found.");
-                }
+                StartUI.findItemByName(input, tracker);
             } else if (select == 6) {
                 run = false;
             }
@@ -74,9 +43,67 @@ public class StartUI {
         }
     }
 
-    public static void main(String[] args) {
-        Input input = new ConsoleInput();
-        Tracker tracker = new Tracker();
-        new StartUI().init(input, tracker);
+
+    public static void createItem(Input input, Tracker tracker) {
+        System.out.println("=== Create a new Item ===");
+        String name = input.askStr("Enter name: ");
+        Item item = new Item(name);
+        tracker.add(item);
+        System.out.println("Added application: " + item);
+    }
+
+    public static void showAllItem(Input input, Tracker tracker) {
+        System.out.println("=== Show all items ===");
+        Item[] items = tracker.findAll();
+        if (items.length > 0) {
+            for (Item item : items) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("The repository does not yet contain claims.");
+        }
+    }
+
+    public static void editItem(Input input, Tracker tracker) {
+        int id = input.askInt("=== Edit item === \n Enter id:");
+        String name = input.askStr("Enter name: ");
+        Item item = new Item(name);
+        if (tracker.replace(id, item)) {
+            System.out.println("Application changed successfully.");
+        } else {
+            System.out.println("Order replacement error.");
+        }
+    }
+
+
+    public static void deleteItem(Input input, Tracker tracker) {
+        int id = input.askInt("=== Delete item === " + System.lineSeparator() + " Enter id: ");
+        if (tracker.delete(id)) {
+            System.out.println("Request deleted successfully.");
+        } else {
+            System.out.println("Application deletion error.");
+        }
+    }
+
+    public static void findItemByID(Input input, Tracker tracker) {
+        int id = input.askInt("=== Find item by id ===" + System.lineSeparator() + " Enter id: ");
+        Item item = tracker.findById(id);
+        if (item != null) {
+            System.out.println(item);
+        } else {
+            System.out.println("Application with entered id: " + id + " not found.");
+        }
+    }
+
+    public static void findItemByName(Input input, Tracker tracker) {
+        String name = input.askStr("=== Find items by name ===" + System.lineSeparator() + " Enter name: ");
+        Item[] items = tracker.findByName(name);
+        if (items.length > 0) {
+            for (Item item : items) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("Application with: " + name + " not found.");
+        }
     }
 }

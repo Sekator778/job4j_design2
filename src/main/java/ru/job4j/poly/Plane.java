@@ -1,10 +1,10 @@
 package ru.job4j.poly;
 
-public class Plane implements Transport{
-    private final int MAX_SPEED;
+public class Plane implements Transport {
+    private final int maxSpeed;
 
-    public Plane(int MAX_SPEED) {
-        this.MAX_SPEED = MAX_SPEED;
+    public Plane(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
     }
 
     @Override
@@ -14,6 +14,6 @@ public class Plane implements Transport{
 
     @Override
     public void speed() {
-        System.out.printf("I move at the speed of %d miles per hour", MAX_SPEED);
+        System.out.printf("I move at the speed of %d miles per hour", maxSpeed);
     }
 }
