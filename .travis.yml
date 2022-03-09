@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-  - 17.0.1
+  - oraclejdk17.0.1
 
 sudo: false
 
