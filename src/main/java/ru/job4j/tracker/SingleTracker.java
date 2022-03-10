@@ -9,11 +9,7 @@ public final class SingleTracker {
     }
 
     public static SingleTracker getInstance() {
-        if (INSTANCE == null) {
-            return new SingleTracker();
-        } else {
-            return INSTANCE;
-        }
+        return INSTANCE == null ? new SingleTracker() : INSTANCE;
     }
 
     public Item add(Item item) {
