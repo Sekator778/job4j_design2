@@ -21,7 +21,7 @@ public class StartUITest {
                 new Exit()
         };
         new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findAll()[0].getName(), is("Item name"));
+        assertThat(tracker.findAll().get(0).getName(), is("Item name"));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class StartUITest {
         /* Входные данные должны содержать ID добавленной заявки item.getId() */
         String replacedName = "New item name";
         Input in = new StubInput(
-                new String[]{"0", "1", replacedName, "1"}
+                new String[]{"0", "0", replacedName, "1"}
         );
         UserAction[] actions = {
                 new ReplaceAction(out),

@@ -5,6 +5,8 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Output;
 import ru.job4j.tracker.Tracker;
 
+import java.util.List;
+
 public class FindItemByName implements UserAction {
     private final Output output;
 
@@ -20,14 +22,13 @@ public class FindItemByName implements UserAction {
     @Override
     public boolean execute(Input input, Tracker tracker) {
         String name = input.askStr(" Enter name: ");
-        Item[] items = tracker.findByName(name);
-        if (items.length > 0) {
-            for (Item item : items) {
-                output.println(item);
-            }
-        } else {
+        List<Item> itemList = tracker.findByName(name);
+        if (itemList.isEmpty()) {
             output.println("Application with: " + name + " not found.");
+            return false;
+        } else {
+            itemList.forEach(output::println);
+            return true;
         }
-        return true;
     }
 }

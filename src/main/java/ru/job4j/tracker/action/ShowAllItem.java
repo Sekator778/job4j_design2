@@ -5,11 +5,13 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Output;
 import ru.job4j.tracker.Tracker;
 
+import java.util.List;
+
 public class ShowAllItem implements UserAction {
-    private final Output out;
+    private final Output output;
 
     public ShowAllItem(Output out) {
-        this.out = out;
+        this.output = out;
     }
 
     @Override
@@ -19,15 +21,14 @@ public class ShowAllItem implements UserAction {
 
     @Override
     public boolean execute(Input input, Tracker tracker) {
-        out.println("=== Show all items ===");
-        Item[] items = tracker.findAll();
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
+        output.println("=== Show all items ===");
+        List<Item> itemList = tracker.findAll();
+        if (itemList.isEmpty()) {
+            output.println("The repository does not yet contain claims.");
+            return false;
         } else {
-            out.println("The repository does not yet contain claims.");
+            itemList.forEach(output::println);
+            return true;
         }
-        return true;
     }
 }
