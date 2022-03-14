@@ -31,5 +31,6 @@ public class FunctionalInterfaces {
         Function<String, String> func = s -> s.toUpperCase(Locale.ROOT);
 
         sup.get().forEach(s -> con.accept(func.apply(s)));
+        
     }
 }

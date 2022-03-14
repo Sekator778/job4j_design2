@@ -3,6 +3,7 @@ package ru.job4j.lambda;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BinaryOperator;
 
 public class AttachmentSort {
     public static void main(String[] args) {
@@ -27,5 +28,14 @@ public class AttachmentSort {
         };
         attachments.sort(comparatorName);
         System.out.println(attachments);
+
+        BinaryOperator<StringBuilder> builder = StringBuilder::append;
+        System.out.println(
+                "Строка после объединения: " + builder.apply(
+                        new StringBuilder("First string"),
+                        new StringBuilder("Second string")
+                )
+        );
+
     }
 }
