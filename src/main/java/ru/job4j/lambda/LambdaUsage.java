@@ -10,8 +10,8 @@ public class LambdaUsage {
         List<String> strings = Arrays.asList("eeeee", "a", "ccc", "dddd", "bb");
 
         Comparator<String> comparator = (left, right) -> {
-            System.out.printf("compare-> stringRight: %s, length: %d with stringLeft: %s, length: %d%n",
-                              right, right.length(), left, left.length());
+            System.out.printf("compare-> stringLeft: %s, length: %d with stringRight: %s, length: %d%n",
+                              left, left.length(),  right, right.length());
             return Integer.compare(right.length(), left.length());
         };
 
