@@ -21,8 +21,8 @@ public class BankService {
      * @param account  acc для добавления
      */
     public void addAccount(String passport, Account account) {
-        User user = findByPassport(passport);
-        if (user != null) {
+        if (findByPassport(passport).isPresent()) {
+            User user = findByPassport(passport).get();
             List<Account> list = users.get(user);
             if (!list.contains(account)) {
                 list.add(account);
@@ -30,20 +30,20 @@ public class BankService {
         }
     }
 
-    public User findByPassport(String passport) {
-        Optional<User> rsl = users.keySet().stream().filter(
+    public Optional<User> findByPassport(String passport) {
+        return users.keySet().stream().filter(
                 user -> user.getPassport().equals(passport)).findFirst();
-        return rsl.orElse(null);
     }
 
     public Optional<Account> findByRequisite(String passport, String requisite) {
-        User user = findByPassport(passport);
-        if (user == null) {
-            return Optional.empty();
+        Optional<Account> result = null;
+        if (findByPassport(passport).isPresent()) {
+            User user = findByPassport(passport).get();
+            List<Account> list = users.get(user);
+            result = list.stream().filter(
+                    account -> account.getRequisite().equals(requisite)).findFirst();
         }
-        List<Account> list = users.get(user);
-        return list.stream().filter(
-                account -> account.getRequisite().equals(requisite)).findFirst();
+        return result;
     }
 
     public boolean transferMoney(String srcPassport, String srcRequisite,
