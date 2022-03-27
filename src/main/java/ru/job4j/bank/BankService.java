@@ -21,8 +21,9 @@ public class BankService {
      * @param account  acc для добавления
      */
     public void addAccount(String passport, Account account) {
-        if (findByPassport(passport).isPresent()) {
-            User user = findByPassport(passport).get();
+        Optional<User> byPassport = findByPassport(passport);
+        if (byPassport.isPresent()) {
+            User user = byPassport.get();
             List<Account> list = users.get(user);
             if (!list.contains(account)) {
                 list.add(account);
@@ -36,7 +37,7 @@ public class BankService {
     }
 
     public Optional<Account> findByRequisite(String passport, String requisite) {
-        Optional<Account> result = null;
+        Optional<Account> result = Optional.empty();
         if (findByPassport(passport).isPresent()) {
             User user = findByPassport(passport).get();
             List<Account> list = users.get(user);
