@@ -1,0 +1,8 @@
+File name master, size = 41  kb 
+File name 1.txt, size = 0  kb 
+File name dump.txt, size = 66  kb 
+File name test.properties, size = 126  kb 
+File name app.properties, size = 119  kb 
+File name log4j.properties, size = 482  kb 
+File name test.properties, size = 126  kb 
+File name test.properties, size = 126  kb 
