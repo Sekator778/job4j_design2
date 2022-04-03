@@ -1,9 +1,7 @@
 package ru.job4j.tracker.action;
 
-import ru.job4j.tracker.Input;
-import ru.job4j.tracker.Item;
-import ru.job4j.tracker.Output;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.*;
+import ru.job4j.tracker.model.Item;
 
 import java.util.List;
 
@@ -20,9 +18,9 @@ public class FindItemByName implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store memTracker) {
         String name = input.askStr(" Enter name: ");
-        List<Item> itemList = tracker.findByName(name);
+        List<Item> itemList = memTracker.findByName(name);
         if (itemList.isEmpty()) {
             output.println("Application with: " + name + " not found.");
             return false;

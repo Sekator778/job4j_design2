@@ -19,7 +19,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <db.url>jdbc:h2:${basedir}/testdb;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</db.url>
+                <db.url>jdbc:h2:${basedir}/main;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</db.url>
                 <db.username></db.username>
                 <db.password></db.password>
                 <db.driver>org.h2.Driver</db.driver>
@@ -31,7 +31,7 @@
         <profile>
             <id>production</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/asic</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/main</db.url>
                 <db.username>postgres</db.username>
                 <db.password>password</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -138,10 +138,10 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>tracker</finalName>
+                            <finalName>memTracker</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.job4j.tracker.StartUI</mainClass>
+                                    <mainClass>ru.job4j.memTracker.StartUI</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

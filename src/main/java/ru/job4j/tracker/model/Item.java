@@ -1,4 +1,4 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,8 +8,8 @@ import java.util.Objects;
 public class Item implements Comparable<Item> {
     private int id;
     private String name;
-    private LocalDateTime created = LocalDateTime.now();
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
+    private final LocalDateTime created = LocalDateTime.now();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm:ss");
 
     public Item() {
     }

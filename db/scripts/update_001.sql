@@ -1,5 +1,5 @@
-create table if not exists userspamer (
+create table if not exists items (
                                      id serial primary key,
-                                     name varchar(88),
-                                     email varchar(99)
+                                     name text,
+                                     created timestamp
 );
