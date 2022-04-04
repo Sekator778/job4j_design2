@@ -13,6 +13,10 @@ public class Person {
         this.address = address;
     }
 
+    public Person(int i, String surname) {
+
+    }
+
     public String getName() {
         return name;
     }
