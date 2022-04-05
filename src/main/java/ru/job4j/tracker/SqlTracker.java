@@ -51,7 +51,7 @@ public class SqlTracker implements Store, AutoCloseable {
         try (PreparedStatement preparedStatement = connection.prepareStatement("insert into items (name) values (?)", Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             int rows = preparedStatement.executeUpdate();
-//            System.out.printf("%d rows added \n", rows);
+/*            System.out.printf("%d rows added \n", rows);*/
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 int id = resultSet.getInt(1);
