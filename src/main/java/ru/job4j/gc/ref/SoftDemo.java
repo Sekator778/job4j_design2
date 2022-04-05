@@ -8,7 +8,7 @@ public class SoftDemo {
 
     public static void main(String[] args) {
         example1();
-//        example2();
+/*      example2();*/
     }
 
     private static void example1() {
