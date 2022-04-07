@@ -1,20 +1,24 @@
 package ru.job4j.parking;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.parking.model.Car;
-import ru.job4j.parking.model.Lorry;
 import ru.job4j.parking.model.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  *
  */
 public class AutoParking implements Parking {
-    private final List<Vehicle> autoList;
-    private final List<Vehicle> lorryList;
+    private List<Vehicle> autoList;
+    private List<Vehicle> lorryList;
     private int freePlaysForAuto;
     private int freePlaysForLorry;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AutoParking.class);
 
     public AutoParking(int countAuto, int countLorry) {
         this.autoList = new ArrayList<>(countAuto);
@@ -43,40 +47,63 @@ public class AutoParking implements Parking {
             result = true;
         } else if (freePlaysForAuto > 0 && !isLorry(vehicle)) {
             autoList.add(vehicle);
+            freePlaysForAuto--;
             result = true;
         }
         if (result) {
-            System.out.println("Vehicle add to parking");
+            LOGGER.info("Vehicle add to parking");
         } else {
-            System.out.println("No free places");
+            LOGGER.info("No free places");
         }
         return result;
     }
 
     @Override
     public boolean removeVehicle(Vehicle vehicle) {
-        boolean result = false;
+        boolean result;
         if (vehicle.getSize() == Car.SIZE) {
-            for (int i = 0; i < autoList.size(); i++) {
-                if (autoList.get(i).equals(vehicle)) {
-                    autoList.set(i, null);
-                    result = true;
-                }
-            }
+            int sizeAutoList = autoList.size();
+            autoList = autoList
+                    .stream()
+                    .filter(auto -> !auto.equals(vehicle))
+                    .collect(Collectors.toList());
+            result = sizeAutoList != autoList.size();
         } else {
-            for (int i = 0; i < lorryList.size(); i++) {
-                if (lorryList.get(i).equals(vehicle)) {
-                    lorryList.set(i, null);
-                    result = true;
-                }
-            }
+            int sizeLorryList = lorryList.size();
+            lorryList = lorryList
+                    .stream()
+                    .filter(lorry -> !lorry.equals(vehicle))
+                    .collect(Collectors.toList());
+            result = sizeLorryList != lorryList.size();
         }
         if (result) {
-            System.out.println("Car successfully left from parking");
+            LOGGER.info("Car successfully left from parking");
         } else {
-            System.out.println("wrong vehicle");
+            LOGGER.info("wrong vehicle");
         }
         return result;
+    }
+
+    @Override
+    public Optional<Vehicle> removeVehicleById(int id) {
+        Optional<Vehicle> findVehicleInAuto = autoList.stream()
+                .filter(auto -> auto.getId() == id)
+                .findAny();
+        Optional<Vehicle> findVehicleInLorry;
+        if (findVehicleInAuto.isEmpty()) {
+            findVehicleInLorry = lorryList.stream()
+                    .filter(lorry -> lorry.getId() == id)
+                    .findAny();
+        } else {
+            removeVehicle(findVehicleInAuto.get());
+            return findVehicleInAuto;
+        }
+        if (findVehicleInLorry.isEmpty()) {
+            return Optional.empty();
+        } else {
+            removeVehicle(findVehicleInLorry.get());
+            return findVehicleInLorry;
+        }
     }
 
     private boolean isLorry(Vehicle vehicle) {
